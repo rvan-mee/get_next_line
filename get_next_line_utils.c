@@ -6,7 +6,7 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:08 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/10/31 16:41:35 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/01 09:42:35 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ char	*merge_str(char *src, char *buffer)
 		newstr[i + j] = buffer[j];
 		j++;
 	}
-//	printf("   ----------------- free ------------------\n");
 	free(src);
-//	printf("   ----------------- free successfull ------\n");
 	return (newstr);
 }
 
@@ -77,7 +75,6 @@ char	*remove_till_newline(char *str)
 
 	i = 0;
 	j = 0;
-//	printf("str contains: %s\n", str);
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\n')
@@ -92,10 +89,7 @@ char	*remove_till_newline(char *str)
 				j++;
 			}
 			newstr[j] = '\0';
-//			printf("newstr contains: %s\n", newstr);
-//			printf("   ----------------- free ------------------\n");
 			free(str);
-//			printf("   ----------------- free successfull ------\n");
 			return (newstr);
 		}
 		i++;

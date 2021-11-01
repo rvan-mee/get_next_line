@@ -6,7 +6,7 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:12 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/10/31 15:39:04 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/01 09:48:34 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*get_return_line(int fd, char *str)
 		buffer[i] = '\0';
 		i++;
 	}
-	while (bytesread != 0)
+	while (bytesread != 0 && check_4_newline(str))
 	{
 		bytesread = read(fd, buffer, BUFFER_SIZE);
 		if (bytesread == -1)
@@ -89,8 +89,6 @@ char	*get_return_line(int fd, char *str)
 		str = merge_str(str, buffer);
 		if (!str)
 			return (NULL);
-		if (!(check_4_newline(str)))
-			break ;
 	}
 	return (str);
 }
@@ -108,15 +106,8 @@ char	*get_next_line(int fd)
 		return (NULL);
 	returnstr = merge_str(returnstr, backupstr[fd]);
 	if (!returnstr)
-			return (NULL);
-	if (!check_4_newline(backupstr[fd]))
-	{
-		fill_backup(backupstr[fd], returnstr);
-		returnstr = remove_till_newline(returnstr);
-		return (returnstr);
-	}
-	//printf("------------------ Skipped first part ---------\n");
-	while (check_4_newline(returnstr))
+		return (NULL);
+	if (check_4_newline(backupstr[fd]))
 	{
 		returnstr = get_return_line(fd, returnstr);
 		if (!returnstr)
@@ -126,3 +117,10 @@ char	*get_next_line(int fd)
 	returnstr = remove_till_newline(returnstr);
 	return (returnstr);
 }
+
+
+
+
+
+
+// gcc -D BUFFER_SIZE=1 get_next_line.c get_next_line_utils.c main.c
