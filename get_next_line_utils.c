@@ -6,7 +6,7 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:08 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/11/01 10:47:41 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/01 15:29:18 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,32 @@ char	*merge_str(char *src, char *buffer)
 	return (newstr);
 }
 
+char	*remove_helper(char *newstr, char *str)
+{
+	int	j;
+
+	j = 0;
+	while (str[j] != '\n' && str[j] != '\0')
+	{
+		newstr[j] = str[j];
+		j++;
+	}
+	if (str[j] == '\n')
+	{
+		newstr[j] = '\n';
+		j++;
+	}
+	newstr[j] = '\0';
+	free(str);
+	return (newstr);
+}
+
 char	*remove_till_newline(char *str)
 {
 	int		i;
-	int		j;
 	char	*newstr;
 
 	i = 0;
-	j = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\n')
@@ -65,18 +83,7 @@ char	*remove_till_newline(char *str)
 			newstr = ft_calloc(i + 1);
 			if (!newstr)
 				return (NULL);
-			while (str[j] != '\n' && str[j] != '\0')
-			{
-				newstr[j] = str[j];
-				j++;
-			}
-			if (str[j] == '\n')
-			{
-				newstr[j] = '\n';
-				j++;
-			}
-			newstr[j] = '\0';
-			free(str);
+			newstr = remove_helper(newstr, str);
 			return (newstr);
 		}
 		i++;
