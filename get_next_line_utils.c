@@ -6,7 +6,7 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:08 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/11/01 09:42:35 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/01 10:47:41 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	ft_strlen(char *str)
 {
-//	printf(" ----------------- ft_strlen -----------------\n");
 	int	i;
 
 	i = 0;
@@ -25,24 +24,8 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*strcopy(char *src, char *dst)
-{
-//	printf(" ----------------- strcopy -----------------\n");
-	int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-
 char	*merge_str(char *src, char *buffer)
 {
-//	printf("------------------ MERGE_STR ------------------\n");
 	char	*newstr;
 	int		i;
 	int		j;
@@ -68,7 +51,6 @@ char	*merge_str(char *src, char *buffer)
 
 char	*remove_till_newline(char *str)
 {
-//	printf("------------------ remove_till_newline --------\n");
 	int		i;
 	int		j;
 	char	*newstr;
@@ -80,12 +62,17 @@ char	*remove_till_newline(char *str)
 		if (str[i] == '\n')
 		{
 			i++;
-			newstr = ft_calloc(ft_strlen(str + i) + 1);
+			newstr = ft_calloc(i + 1);
 			if (!newstr)
 				return (NULL);
-			while (j < i)
+			while (str[j] != '\n' && str[j] != '\0')
 			{
 				newstr[j] = str[j];
+				j++;
+			}
+			if (str[j] == '\n')
+			{
+				newstr[j] = '\n';
 				j++;
 			}
 			newstr[j] = '\0';
