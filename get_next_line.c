@@ -6,7 +6,7 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:12 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/11/01 16:19:28 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/02 15:35:52 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,26 @@ int	check_4_newline(char *str)
 
 char	*get_return_line(int fd, char *str)
 {
-//	printf("TEST get_return_line buffersize: %d\n", BUFFER_SIZE);
-	char	buffer[BUFFER_SIZE + 1];
-	int		bytesread;
-	int		i;
+	char		buffer[BUFFER_SIZE + 1];
+	int			bytesread;
+	size_t		i;
 
 	i = 0;
-	bytesread = -1;
-//	printf("TEST get_return_line buffersize: %d\n", BUFFER_SIZE);
-	while (i <= BUFFER_SIZE)
-	{
-		buffer[i] = '\0';
-		i++;
-	}
-	while (bytesread != 0 && check_4_newline(str))
+	bytesread = BUFFER_SIZE;
+	memsetzero(buffer, BUFFER_SIZE);
+	while (bytesread > 0 && check_4_newline(str))
 	{
 		bytesread = read(fd, buffer, BUFFER_SIZE);
-		if (bytesread == -1)
+		//printf("str inside whileloop: %s\nbuffer inside whileloop: %s\nbytersread: %d\n\n", str, buffer, bytesread);
+		if (bytesread == -1 || (bytesread == 0 && str[0] == '\0'))
+		{
+			free(str);
 			return (NULL);
+		}
 		str = merge_str(str, buffer);
 		if (!str)
 			return (NULL);
+		memsetzero(buffer, BUFFER_SIZE);
 	}
 	return (str);
 }
@@ -94,30 +93,22 @@ char	*get_return_line(int fd, char *str)
 char	*get_next_line(int fd)
 {
 	char		*returnstr;
-	static char	backupstr[OPEN_MAX + 1][BUFFER_SIZE + 1];
+	static char	backupstr[OPEN_MAX][BUFFER_SIZE + 1];
 
-//	printf("TEST\n");
-	//static char test[BUFFER_SIZE][BUFFER_SIZE][BUFFER_SIZE];
-//	printf("TEST buffersize: %d\n", BUFFER_SIZE);
-	if (BUFFER_SIZE <= 0 || fd < 0)
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd > OPEN_MAX)
 		return (NULL);
 	returnstr = ft_calloc(BUFFER_SIZE + 1);
 	if (!returnstr)
 		return (NULL);
-//	printf("TEST after calloc\n");
 	returnstr = merge_str(returnstr, backupstr[fd]);
 	if (!returnstr)
 		return (NULL);
-//	printf("TEST after merge_str\n");
 	if (check_4_newline(backupstr[fd]))
 	{
-//		printf("TEST after if\n");
 		returnstr = get_return_line(fd, returnstr);
 		if (!returnstr)
 			return (NULL);
-//		printf("TEST after get_return_line\n");
 	}
-//	printf("TEST\n");
 	fill_backup(backupstr[fd], returnstr);
 	returnstr = remove_till_newline(returnstr);
 	return (returnstr);

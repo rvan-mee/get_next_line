@@ -6,11 +6,23 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:08 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/11/01 15:29:18 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/02 14:29:41 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	memsetzero(char *str, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i <= len)
+	{
+		str[i] = '\0';
+		i++;
+	}
+}
 
 int	ft_strlen(char *str)
 {
@@ -34,7 +46,10 @@ char	*merge_str(char *src, char *buffer)
 	j = 0;
 	newstr = ft_calloc(ft_strlen(buffer) + ft_strlen(src) + 1);
 	if (!newstr)
+	{
+		free(src);
 		return (NULL);
+	}
 	while (src[i] != '\0')
 	{
 		newstr[i] = src[i];
