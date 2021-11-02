@@ -6,7 +6,7 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:16 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/11/02 14:29:23 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/02 17:10:55 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*remove_till_newline(char *str);
 char	*merge_str(char *src, char *buffer);
 char	*strcopy(char *src, char *dst);
 int		ft_strlen(char *str);
-char	*ft_calloc(int len);
-void	memsetzero(char *str, int len);
+char	*ft_calloc(ssize_t len);
+void	memsetzero(char *str, ssize_t len);
 
 #endif

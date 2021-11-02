@@ -6,7 +6,7 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:12 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/11/02 15:51:17 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/02 17:11:08 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ char	*fill_backup(char *backupstr, char *returnstr)
 	return (backupstr);
 }
 
-char	*ft_calloc(int len)
+char	*ft_calloc(ssize_t len)
 {
-	int		i;
+	ssize_t	i;
 	char	*str;
 
 	i = 0;
@@ -66,26 +66,28 @@ int	check_4_newline(char *str)
 
 char	*get_return_line(int fd, char *str)
 {
-	char		buffer[BUFFER_SIZE + 1];
-	int			bytesread;
-	size_t		i;
+	char		*buffer;
+	ssize_t		bytesread;
 
-	i = 0;
 	bytesread = BUFFER_SIZE;
-	memsetzero(buffer, BUFFER_SIZE);
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
 	while (bytesread > 0 && check_4_newline(str))
 	{
+		memsetzero(buffer, BUFFER_SIZE);
 		bytesread = read(fd, buffer, BUFFER_SIZE);
 		if (bytesread == -1 || (bytesread == 0 && str[0] == '\0'))
 		{
+			free(buffer);
 			free(str);
 			return (NULL);
 		}
 		str = merge_str(str, buffer);
 		if (!str)
-			return (NULL);
-		memsetzero(buffer, BUFFER_SIZE);
+			break ;
 	}
+	free(buffer);
 	return (str);
 }
 

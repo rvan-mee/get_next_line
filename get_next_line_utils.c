@@ -6,15 +6,15 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:08 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/11/02 14:29:41 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/02 17:09:59 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	memsetzero(char *str, int len)
+void	memsetzero(char *str, ssize_t len)
 {
-	int	i;
+	ssize_t	i;
 
 	i = 0;
 	while (i <= len)
