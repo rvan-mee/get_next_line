@@ -6,7 +6,7 @@
 /*   By: rvan-mee <rvan-mee@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/10/28 13:09:12 by rvan-mee      #+#    #+#                 */
-/*   Updated: 2021/11/02 15:35:52 by rvan-mee      ########   odam.nl         */
+/*   Updated: 2021/11/02 15:51:17 by rvan-mee      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ char	*get_return_line(int fd, char *str)
 	while (bytesread > 0 && check_4_newline(str))
 	{
 		bytesread = read(fd, buffer, BUFFER_SIZE);
-		//printf("str inside whileloop: %s\nbuffer inside whileloop: %s\nbytersread: %d\n\n", str, buffer, bytesread);
 		if (bytesread == -1 || (bytesread == 0 && str[0] == '\0'))
 		{
 			free(str);
